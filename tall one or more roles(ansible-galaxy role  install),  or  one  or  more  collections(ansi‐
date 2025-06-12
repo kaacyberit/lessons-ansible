@@ -1,0 +1,569 @@
+[4mANSIBLE-GALAXY[24m(1)                      System administration commands                      [4mANSIBLE-GALAXY[24m(1)
+
+[1mNAME[0m
+       ansible-galaxy - Perform various Role and Collection related operations.
+
+[1mSYNOPSIS[0m
+       usage: ansible-galaxy [-h] [--version] [-v] TYPE ...
+
+[1mDESCRIPTION[0m
+       Command to manage Ansible roles and collections.
+
+       None  of  the  CLI tools are designed to run concurrently with themselves.  Use an external scheduler
+       and/or locking to ensure there are no clashing operations.
+
+[1mCOMMON OPTIONS[0m
+       [1m--version[0m
+          show program's version number, config file location, configured module search path,  module  loca‐
+          tion, executable location and exit
+
+       [1m-h[22m, [1m--help[0m
+          show this help message and exit
+
+       [1m-v[22m, [1m--verbose[0m
+          Causes  Ansible  to print more debug messages. Adding multiple -v will increase the verbosity, the
+          builtin plugins currently evaluate up to -vvvvvv. A reasonable level to start is -vvv,  connection
+          debugging might require -vvvv. This argument may be specified multiple times.
+
+[1mACTIONS[0m
+       [1mcollection[0m
+              Perform  the  action  on  an Ansible Galaxy collection. Must be combined with a further action
+              like init/install as listed below.
+
+       [1mcollection download[0m
+              Download collections and their dependencies as a tarball for an offline install.
+
+              [1m--clear-response-cache[0m
+                 Clear the existing server response cache.
+
+              [1m--no-cache[0m
+                 Do not use the server response cache.
+
+              [1m--pre[0m
+                 Include pre-release versions. Semantic versioning pre-releases are ignored by default
+
+              [1m--timeout [22m'TIMEOUT'
+                 The time to wait for operations against the galaxy server, defaults to 60s.
+
+              [1m--token [22m'API_KEY',   [1m--api-key [22m'API_KEY'
+                 The Ansible Galaxy API key which can be found at [4mhttps://galaxy.ansible.com/me/preferences[24m.
+
+              [1m-c[22m,   [1m--ignore-certs[0m
+                 Ignore SSL certificate validation errors.
+
+              [1m-n[22m,   [1m--no-deps[0m
+                 Don't download collection(s) listed as dependencies.
+
+              [1m-p [22m'DOWNLOAD_PATH',   [1m--download-path [22m'DOWNLOAD_PATH'
+                 The directory to download the collections to.
+
+              [1m-r [22m'REQUIREMENTS',   [1m--requirements-file [22m'REQUIREMENTS'
+                 A file containing a list of collections to be downloaded.
+
+              [1m-s [22m'API_SERVER',   [1m--server [22m'API_SERVER'
+                 The Galaxy API server URL
+
+       [1mcollection init[0m
+              Creates the skeleton framework of a role or collection that complies with the Galaxy  metadata
+              format.  Requires  a role or collection name. The collection name must be in the format [1m<name‐[0m
+              [1mspace>.<collection>[22m.
+
+              [1m--collection-skeleton [22m'COLLECTION_SKELETON'
+                 The path to a collection skeleton that the new collection should be based upon.
+
+              [1m--init-path [22m'INIT_PATH'
+                 The path in which the skeleton collection will be created. The default is the current work‐
+                 ing directory.
+
+              [1m--timeout [22m'TIMEOUT'
+                 The time to wait for operations against the galaxy server, defaults to 60s.
+
+              [1m--token [22m'API_KEY',   [1m--api-key [22m'API_KEY'
+                 The Ansible Galaxy API key which can be found at [4mhttps://galaxy.ansible.com/me/preferences[24m.
+
+              [1m-c[22m,   [1m--ignore-certs[0m
+                 Ignore SSL certificate validation errors.
+
+              [1m-f[22m,   [1m--force[0m
+                 Force overwriting an existing role or collection
+
+              [1m-s [22m'API_SERVER',   [1m--server [22m'API_SERVER'
+                 The Galaxy API server URL
+
+       [1mcollection build[0m
+              Build an Ansible Galaxy collection artifact that can be stored in a  central  repository  like
+              Ansible  Galaxy.  By  default, this command builds from the current working directory. You can
+              optionally pass in the collection input path (where the [1mgalaxy.yml [22mfile is).
+
+              [1m--output-path [22m'OUTPUT_PATH'
+                 The path in which the collection is built to. The default is the current working directory.
+
+              [1m--timeout [22m'TIMEOUT'
+                 The time to wait for operations against the galaxy server, defaults to 60s.
+
+              [1m--token [22m'API_KEY',   [1m--api-key [22m'API_KEY'
+                 The Ansible Galaxy API key which can be found at [4mhttps://galaxy.ansible.com/me/preferences[24m.
+
+              [1m-c[22m,   [1m--ignore-certs[0m
+                 Ignore SSL certificate validation errors.
+
+              [1m-f[22m,   [1m--force[0m
+                 Force overwriting an existing role or collection
+
+              [1m-s [22m'API_SERVER',   [1m--server [22m'API_SERVER'
+                 The Galaxy API server URL
+
+       [1mcollection publish[0m
+              Publish a collection into Ansible Galaxy. Requires the path to the collection tarball to  pub‐
+              lish.
+
+              [1m--import-timeout [22m'IMPORT_TIMEOUT'
+                 The time to wait for the collection import process to finish.
+
+              [1m--no-wait[0m
+                 Don't wait for import validation results.
+
+              [1m--timeout [22m'TIMEOUT'
+                 The time to wait for operations against the galaxy server, defaults to 60s.
+
+              [1m--token [22m'API_KEY',   [1m--api-key [22m'API_KEY'
+                 The Ansible Galaxy API key which can be found at [4mhttps://galaxy.ansible.com/me/preferences[24m.
+
+              [1m-c[22m,   [1m--ignore-certs[0m
+                 Ignore SSL certificate validation errors.
+
+              [1m-s [22m'API_SERVER',   [1m--server [22m'API_SERVER'
+                 The Galaxy API server URL
+
+       [1mcollection install[0m
+              Install  one  or  more  roles([1mansible-galaxy  role  install[22m), or one or more collections([1mansi‐[0m
+              [1mble-galaxy collection install[22m). You can pass in a list (roles or collections) or use the  file
+              option  listed  below  (these are mutually exclusive). If you pass in a list, it can be a name
+              (which will be downloaded via the galaxy API and github), or it can be  a  local  tar  archive
+              file.
+
+              [1m--clear-response-cache[0m
+                 Clear the existing server response cache.
+
+              [1m--disable-gpg-verify[0m
+                 Disable GPG signature verification when installing collections from a Galaxy server
+
+              [1m--force-with-deps[0m
+                 Force overwriting an existing collection and its dependencies.
+
+              [1m--ignore-signature-status-code[0m
+                 ==SUPPRESS==. This argument may be specified multiple times.
+
+              [1m--ignore-signature-status-codes[0m
+                 A  space  separated list of status codes to ignore during signature verification (for exam‐
+                 ple,  NO_PUBKEY  FAILURE).  Descriptions   for   the   choices   can   be   seen   at   L(‐
+                 [4mhttps://github.com/gpg/gnupg/blob/master/doc/DETAILS#general-status-codes).Note[24m:    specify
+                 these after positional arguments or use -- to separate them. This argument may be specified
+                 multiple times.
+
+              [1m--keyring [22m'KEYRING'
+                 The keyring used during signature verification
+
+              [1m--no-cache[0m
+                 Do not use the server response cache.
+
+              [1m--offline[0m
+                 Install collection artifacts (tarballs) without contacting any distribution  servers.  This
+                 does not apply to collections in remote Git repositories or URLs to remote tarballs.
+
+              [1m--pre[0m
+                 Include pre-release versions. Semantic versioning pre-releases are ignored by default
+
+              [1m--required-valid-signature-count [22m'REQUIRED_VALID_SIGNATURE_COUNT'
+                 The  number  of  signatures  that must successfully verify the collection. This should be a
+                 positive integer or -1 to signify that all signatures must be used to  verify  the  collec‐
+                 tion.  Prepend the value with + to fail if no valid signatures are found for the collection
+                 (e.g. +all).
+
+              [1m--signature[0m
+                 An additional signature source to verify the authenticity of the MANIFEST.json  before  in‐
+                 stalling  the collection from a Galaxy server. Use in conjunction with a positional collec‐
+                 tion name (mutually exclusive with --requirements-file). This  argument  may  be  specified
+                 multiple times.
+
+              [1m--timeout [22m'TIMEOUT'
+                 The time to wait for operations against the galaxy server, defaults to 60s.
+
+              [1m--token [22m'API_KEY',   [1m--api-key [22m'API_KEY'
+                 The Ansible Galaxy API key which can be found at [4mhttps://galaxy.ansible.com/me/preferences[24m.
+
+              [1m-U[22m,   [1m--upgrade[0m
+                 Upgrade installed collection artifacts. This will also update dependencies unless --no-deps
+                 is provided
+
+              [1m-c[22m,   [1m--ignore-certs[0m
+                 Ignore SSL certificate validation errors.
+
+              [1m-f[22m,   [1m--force[0m
+                 Force overwriting an existing role or collection
+
+              [1m-i[22m,   [1m--ignore-errors[0m
+                 Ignore  errors  during  installation  and continue with the next specified collection. This
+                 will not ignore dependency conflict errors.
+
+              [1m-n[22m,   [1m--no-deps[0m
+                 Don't download collections listed as dependencies.
+
+              [1m-p [22m'COLLECTIONS_PATH',   [1m--collections-path [22m'COLLECTIONS_PATH'
+                 The path to the directory containing your collections.
+
+              [1m-r [22m'REQUIREMENTS',   [1m--requirements-file [22m'REQUIREMENTS'
+                 A file containing a list of collections to be installed.
+
+              [1m-s [22m'API_SERVER',   [1m--server [22m'API_SERVER'
+                 The Galaxy API server URL
+
+       [1mcollection list[0m
+              List installed collections or roles
+
+              [1m--format [22m'OUTPUT_FORMAT'
+                 Format to display the list of collections in.
+
+              [1m--timeout [22m'TIMEOUT'
+                 The time to wait for operations against the galaxy server, defaults to 60s.
+
+              [1m--token [22m'API_KEY',   [1m--api-key [22m'API_KEY'
+                 The Ansible Galaxy API key which can be found at [4mhttps://galaxy.ansible.com/me/preferences[24m.
+
+              [1m-c[22m,   [1m--ignore-certs[0m
+                 Ignore SSL certificate validation errors.
+
+              [1m-p[22m,   [1m--collections-path[0m
+                 One or more directories to search for  collections  in  addition  to  the  default  COLLEC‐
+                 TIONS_PATHS.  Separate  multiple  paths  with  ':'. This argument may be specified multiple
+                 times.
+
+              [1m-s [22m'API_SERVER',   [1m--server [22m'API_SERVER'
+                 The Galaxy API server URL
+
+       [1mcollection verify[0m
+              Compare checksums with the collection(s) found on the server and the installed copy. This does
+              not verify dependencies.
+
+              [1m--ignore-signature-status-code[0m
+                 ==SUPPRESS==. This argument may be specified multiple times.
+
+              [1m--ignore-signature-status-codes[0m
+                 A space separated list of status codes to ignore during signature verification  (for  exam‐
+                 ple,   NO_PUBKEY   FAILURE).   Descriptions   for   the   choices   can   be  seen  at  L(‐
+                 [4mhttps://github.com/gpg/gnupg/blob/master/doc/DETAILS#general-status-codes).Note[24m:    specify
+                 these after positional arguments or use -- to separate them. This argument may be specified
+                 multiple times.
+
+              [1m--keyring [22m'KEYRING'
+                 The keyring used during signature verification
+
+              [1m--offline[0m
+                 Validate  collection  integrity  locally  without  contacting server for canonical manifest
+                 hash.
+
+              [1m--required-valid-signature-count [22m'REQUIRED_VALID_SIGNATURE_COUNT'
+                 The number of signatures that must successfully verify the collection.  This  should  be  a
+                 positive  integer  or all to signify that all signatures must be used to verify the collec‐
+                 tion. Prepend the value with + to fail if no valid signatures are found for the  collection
+                 (e.g. +all).
+
+              [1m--signature[0m
+                 An additional signature source to verify the authenticity of the MANIFEST.json before using
+                 it to verify the rest of the contents of a collection from a Galaxy server. Use in conjunc‐
+                 tion  with a positional collection name (mutually exclusive with --requirements-file). This
+                 argument may be specified multiple times.
+
+              [1m--timeout [22m'TIMEOUT'
+                 The time to wait for operations against the galaxy server, defaults to 60s.
+
+              [1m--token [22m'API_KEY',   [1m--api-key [22m'API_KEY'
+                 The Ansible Galaxy API key which can be found at [4mhttps://galaxy.ansible.com/me/preferences[24m.
+
+              [1m-c[22m,   [1m--ignore-certs[0m
+                 Ignore SSL certificate validation errors.
+
+              [1m-i[22m,   [1m--ignore-errors[0m
+                 Ignore errors during verification and continue with the next specified collection.
+
+              [1m-p[22m,   [1m--collections-path[0m
+                 One or more directories to search for  collections  in  addition  to  the  default  COLLEC‐
+                 TIONS_PATHS.  Separate  multiple  paths  with  ':'. This argument may be specified multiple
+                 times.
+
+              [1m-r [22m'REQUIREMENTS',   [1m--requirements-file [22m'REQUIREMENTS'
+                 A file containing a list of collections to be verified.
+
+              [1m-s [22m'API_SERVER',   [1m--server [22m'API_SERVER'
+                 The Galaxy API server URL
+
+       [1mrole   [22mPerform the action on an Ansible Galaxy role. Must be combined  with  a  further  action  like
+              delete/install/init as listed below.
+
+       [1mrole init[0m
+              Creates  the skeleton framework of a role or collection that complies with the Galaxy metadata
+              format. Requires a role or collection name. The collection name must be in the  format  [1m<name‐[0m
+              [1mspace>.<collection>[22m.
+
+              [1m--init-path [22m'INIT_PATH'
+                 The path in which the skeleton role will be created. The default is the current working di‐
+                 rectory.
+
+              [1m--offline[0m
+                 Don't query the galaxy API when creating roles
+
+              [1m--role-skeleton [22m'ROLE_SKELETON'
+                 The path to a role skeleton that the new role should be based upon.
+
+              [1m--timeout [22m'TIMEOUT'
+                 The time to wait for operations against the galaxy server, defaults to 60s.
+
+              [1m--token [22m'API_KEY',   [1m--api-key [22m'API_KEY'
+                 The Ansible Galaxy API key which can be found at [4mhttps://galaxy.ansible.com/me/preferences[24m.
+
+              [1m--type [22m'ROLE_TYPE'
+                 Initialize  using an alternate role type. Valid types include: 'container', 'apb' and 'net‐
+                 work'.
+
+              [1m-c[22m,   [1m--ignore-certs[0m
+                 Ignore SSL certificate validation errors.
+
+              [1m-f[22m,   [1m--force[0m
+                 Force overwriting an existing role or collection
+
+              [1m-s [22m'API_SERVER',   [1m--server [22m'API_SERVER'
+                 The Galaxy API server URL
+
+       [1mrole remove[0m
+              removes the list of roles passed as arguments from the local system.
+
+              [1m--timeout [22m'TIMEOUT'
+                 The time to wait for operations against the galaxy server, defaults to 60s.
+
+              [1m--token [22m'API_KEY',   [1m--api-key [22m'API_KEY'
+                 The Ansible Galaxy API key which can be found at [4mhttps://galaxy.ansible.com/me/preferences[24m.
+
+              [1m-c[22m,   [1m--ignore-certs[0m
+                 Ignore SSL certificate validation errors.
+
+              [1m-p[22m,   [1m--roles-path[0m
+                 The path to the directory containing your roles. The default is the first writable one con‐
+                 figured via DEFAULT_ROLES_PATH: {{ ANSIBLE_HOME ~ "/roles:/usr/share/ansible/roles:/etc/an‐
+                 sible/roles" }} . This argument may be specified multiple times.
+
+              [1m-s [22m'API_SERVER',   [1m--server [22m'API_SERVER'
+                 The Galaxy API server URL
+
+       [1mrole delete[0m
+              Delete a role from Ansible Galaxy.
+
+              [1m--timeout [22m'TIMEOUT'
+                 The time to wait for operations against the galaxy server, defaults to 60s.
+
+              [1m--token [22m'API_KEY',   [1m--api-key [22m'API_KEY'
+                 The Ansible Galaxy API key which can be found at [4mhttps://galaxy.ansible.com/me/preferences[24m.
+
+              [1m-c[22m,   [1m--ignore-certs[0m
+                 Ignore SSL certificate validation errors.
+
+              [1m-s [22m'API_SERVER',   [1m--server [22m'API_SERVER'
+                 The Galaxy API server URL
+
+       [1mrole list[0m
+              List installed collections or roles
+
+              [1m--timeout [22m'TIMEOUT'
+                 The time to wait for operations against the galaxy server, defaults to 60s.
+
+              [1m--token [22m'API_KEY',   [1m--api-key [22m'API_KEY'
+                 The Ansible Galaxy API key which can be found at [4mhttps://galaxy.ansible.com/me/preferences[24m.
+
+              [1m-c[22m,   [1m--ignore-certs[0m
+                 Ignore SSL certificate validation errors.
+
+              [1m-p[22m,   [1m--roles-path[0m
+                 The path to the directory containing your roles. The default is the first writable one con‐
+                 figured via DEFAULT_ROLES_PATH: {{ ANSIBLE_HOME ~ "/roles:/usr/share/ansible/roles:/etc/an‐
+                 sible/roles" }} . This argument may be specified multiple times.
+
+              [1m-s [22m'API_SERVER',   [1m--server [22m'API_SERVER'
+                 The Galaxy API server URL
+
+       [1mrole search[0m
+              searches for roles on the Ansible Galaxy server
+
+              [1m--author [22m'AUTHOR'
+                 GitHub username
+
+              [1m--galaxy-tags [22m'GALAXY_TAGS'
+                 list of galaxy tags to filter by
+
+              [1m--platforms [22m'PLATFORMS'
+                 list of OS platforms to filter by
+
+              [1m--timeout [22m'TIMEOUT'
+                 The time to wait for operations against the galaxy server, defaults to 60s.
+
+              [1m--token [22m'API_KEY',   [1m--api-key [22m'API_KEY'
+                 The Ansible Galaxy API key which can be found at [4mhttps://galaxy.ansible.com/me/preferences[24m.
+
+              [1m-c[22m,   [1m--ignore-certs[0m
+                 Ignore SSL certificate validation errors.
+
+              [1m-s [22m'API_SERVER',   [1m--server [22m'API_SERVER'
+                 The Galaxy API server URL
+
+       [1mrole import[0m
+              used to import a role into Ansible Galaxy
+
+              [1m--branch [22m'REFERENCE'
+                 The name of a branch to import. Defaults to the repository's default branch  (usually  mas‐
+                 ter)
+
+              [1m--no-wait[0m
+                 Don't wait for import results.
+
+              [1m--role-name [22m'ROLE_NAME'
+                 The name the role should have, if different than the repo name
+
+              [1m--status[0m
+                 Check the status of the most recent import request for given github_user/github_repo.
+
+              [1m--timeout [22m'TIMEOUT'
+                 The time to wait for operations against the galaxy server, defaults to 60s.
+
+              [1m--token [22m'API_KEY',   [1m--api-key [22m'API_KEY'
+                 The Ansible Galaxy API key which can be found at [4mhttps://galaxy.ansible.com/me/preferences[24m.
+
+              [1m-c[22m,   [1m--ignore-certs[0m
+                 Ignore SSL certificate validation errors.
+
+              [1m-s [22m'API_SERVER',   [1m--server [22m'API_SERVER'
+                 The Galaxy API server URL
+
+       [1mrole setup[0m
+              Setup an integration from Github or Travis for Ansible Galaxy roles
+
+              [1m--list[0m
+                 List all of your integrations.
+
+              [1m--remove [22m'REMOVE_ID'
+                 Remove the integration matching the provided ID value. Use --list to see ID values.
+
+              [1m--timeout [22m'TIMEOUT'
+                 The time to wait for operations against the galaxy server, defaults to 60s.
+
+              [1m--token [22m'API_KEY',   [1m--api-key [22m'API_KEY'
+                 The Ansible Galaxy API key which can be found at [4mhttps://galaxy.ansible.com/me/preferences[24m.
+
+              [1m-c[22m,   [1m--ignore-certs[0m
+                 Ignore SSL certificate validation errors.
+
+              [1m-p[22m,   [1m--roles-path[0m
+                 The path to the directory containing your roles. The default is the first writable one con‐
+                 figured via DEFAULT_ROLES_PATH: {{ ANSIBLE_HOME ~ "/roles:/usr/share/ansible/roles:/etc/an‐
+                 sible/roles" }} . This argument may be specified multiple times.
+
+              [1m-s [22m'API_SERVER',   [1m--server [22m'API_SERVER'
+                 The Galaxy API server URL
+
+       [1mrole info[0m
+              prints  out  detailed  information  about an installed role as well as info available from the
+              galaxy API.
+
+              [1m--offline[0m
+                 Don't query the galaxy API when creating roles
+
+              [1m--timeout [22m'TIMEOUT'
+                 The time to wait for operations against the galaxy server, defaults to 60s.
+
+              [1m--token [22m'API_KEY',   [1m--api-key [22m'API_KEY'
+                 The Ansible Galaxy API key which can be found at [4mhttps://galaxy.ansible.com/me/preferences[24m.
+
+              [1m-c[22m,   [1m--ignore-certs[0m
+                 Ignore SSL certificate validation errors.
+
+              [1m-p[22m,   [1m--roles-path[0m
+                 The path to the directory containing your roles. The default is the first writable one con‐
+                 figured via DEFAULT_ROLES_PATH: {{ ANSIBLE_HOME ~ "/roles:/usr/share/ansible/roles:/etc/an‐
+                 sible/roles" }} . This argument may be specified multiple times.
+
+              [1m-s [22m'API_SERVER',   [1m--server [22m'API_SERVER'
+                 The Galaxy API server URL
+
+       [1mrole install[0m
+              Install one or more roles([1mansible-galaxy role  install[22m),  or  one  or  more  collections([1mansi‐[0m
+              [1mble-galaxy  collection install[22m). You can pass in a list (roles or collections) or use the file
+              option listed below (these are mutually exclusive). If you pass in a list, it can  be  a  name
+              (which  will  be  downloaded  via the galaxy API and github), or it can be a local tar archive
+              file.
+
+              [1m--force-with-deps[0m
+                 Force overwriting an existing role and its dependencies.
+
+              [1m--timeout [22m'TIMEOUT'
+                 The time to wait for operations against the galaxy server, defaults to 60s.
+
+              [1m--token [22m'API_KEY',   [1m--api-key [22m'API_KEY'
+                 The Ansible Galaxy API key which can be found at [4mhttps://galaxy.ansible.com/me/preferences[24m.
+
+              [1m-c[22m,   [1m--ignore-certs[0m
+                 Ignore SSL certificate validation errors.
+
+              [1m-f[22m,   [1m--force[0m
+                 Force overwriting an existing role or collection
+
+              [1m-g[22m,   [1m--keep-scm-meta[0m
+                 Use tar instead of the scm archive option when packaging the role.
+
+              [1m-i[22m,   [1m--ignore-errors[0m
+                 Ignore errors and continue with the next specified role.
+
+              [1m-n[22m,   [1m--no-deps[0m
+                 Don't download roles listed as dependencies.
+
+              [1m-p[22m,   [1m--roles-path[0m
+                 The path to the directory containing your roles. The default is the first writable one con‐
+                 figured via DEFAULT_ROLES_PATH: {{ ANSIBLE_HOME ~ "/roles:/usr/share/ansible/roles:/etc/an‐
+                 sible/roles" }} . This argument may be specified multiple times.
+
+              [1m-r [22m'REQUIREMENTS',   [1m--role-file [22m'REQUIREMENTS'
+                 A file containing a list of roles to be installed.
+
+              [1m-s [22m'API_SERVER',   [1m--server [22m'API_SERVER'
+                 The Galaxy API server URL
+
+[1mENVIRONMENT[0m
+       The following environment variables may be specified.
+
+       ANSIBLE_CONFIG -- Specify override location for the ansible config file
+
+       Many more are available for most options in ansible.cfg
+
+       For a full list check [4mhttps://docs.ansible.com/[24m. or use the [4mansible-config[24m command.
+
+[1mFILES[0m
+       /etc/ansible/ansible.cfg -- Config file, used if present
+
+       ~/.ansible.cfg -- User config file, overrides the default config if present
+
+       ./ansible.cfg -- Local config file (in current working directory) assumed to  be  'project  specific'
+       and overrides the rest if present.
+
+       As mentioned above, the ANSIBLE_CONFIG environment variable will override all others.
+
+[1mAUTHOR[0m
+       Ansible was originally written by Michael DeHaan.
+
+[1mCOPYRIGHT[0m
+       Copyright © 2018 Red Hat, Inc | Ansible.  Ansible is released under the terms of the GPLv3 license.
+
+[1mSEE ALSO[0m
+       [1mansible  [22m(1),  [1mansible-config [22m(1), [1mansible-console [22m(1), [1mansible-doc [22m(1), [1mansible-inventory [22m(1), [1mansi‐[0m
+       [1mble-playbook [22m(1), [1mansible-pull [22m(1), [1mansible-vault [22m(1)
+
+       Extensive documentation is available in the documentation site: <[4mhttps://docs.ansible.com[24m>.  IRC  and
+       mailing    list    info    can    be    found    in    file   CONTRIBUTING.md,   available   in:   <‐
+       [4mhttps://github.com/ansible/ansible[24m>
+
+Ansible 2.16.3                                                                             [4mANSIBLE-GALAXY[24m(1)
